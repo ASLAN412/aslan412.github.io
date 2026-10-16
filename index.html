@@ -36,8 +36,8 @@
 </header>
 <main>
   <section class="kart indir">
-    <a class="dugme" href="https://github.com/ASLAN412/aslan412.github.io/releases/latest/download/MukellefTakip_Kurulum.exe">⬇ Programı İndir</a>
-    <p class="not">Windows 10 / 11 (64 bit) · Kurulum dosyası yaklaşık 800 MB</p>
+    <a class="dugme" id="indir" href="https://github.com/ASLAN412/aslan412.github.io/releases/latest">⬇ Programı İndir</a>
+    <p class="not"><span id="surum"></span>Windows 10 / 11 (64 bit) · Kurulum dosyası yaklaşık 800 MB</p>
   </section>
 
   <section class="kart">
@@ -65,5 +65,16 @@
   </section>
 </main>
 <footer>© 2026 Ahmet ASLAN · Tüm hakları saklıdır. Program, lisans sözleşmesi kapsamında kullanılabilir; kopyalanması ve çoğaltılması yasaktır.</footer>
+<script>
+// Son sürümdeki kurulum dosyasını (adı ne olursa olsun) bulup düğmeye bağlar
+fetch("https://api.github.com/repos/ASLAN412/aslan412.github.io/releases/latest")
+  .then(r => r.json())
+  .then(d => {
+    const exe = (d.assets || []).find(a => a.name.toLowerCase().endsWith(".exe"));
+    if (exe) document.getElementById("indir").href = exe.browser_download_url;
+    if (d.tag_name) document.getElementById("surum").textContent = "Sürüm " + d.tag_name + " · ";
+  })
+  .catch(() => {});
+</script>
 </body>
 </html>
